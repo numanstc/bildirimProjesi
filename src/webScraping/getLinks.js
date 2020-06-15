@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const comuLink = 'http://ce.muhendislik.comu.edu.tr';
 const webAddres = comuLink + '/arsiv/duyurular?p=';
 
-async function getPageLinks(page = 1) {
+export async function getPageLinks(page = 1) {
   const degerler = [];
 
   await axios
