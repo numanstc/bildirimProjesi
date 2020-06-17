@@ -4,7 +4,8 @@ const cheerio = require('cheerio');
 const comuLink = 'http://ce.muhendislik.comu.edu.tr';
 const webAddres = comuLink + '/arsiv/duyurular?p=';
 
-export async function getPageLinks(page = 1) {
+export async function pageLinks(page = 1) {
+  // module.exports = async function (page = 1) {
   const degerler = [];
 
   await axios
@@ -49,6 +50,9 @@ export async function getPageLinks(page = 1) {
 
   return degerler;
 }
-const sonuc = getPageLinks();
-sonuc.then((s) => console.log(s));
+
+// module.exports = { pageLinks };
+
+// const sonuc = getPageLinks();
+// sonuc.then((s) => console.log(s));
 // console.log(sonuc.complete);
