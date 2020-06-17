@@ -192,8 +192,11 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    // benim koyduğum
-    compile project(':react-native-vector-icons')
+    // benim iconlar için koyduğum
+    implementation project(':react-native-vector-icons')
+
+    // benim sqlite için koyduğum
+    implementation project(':react-native-sqlite-storage')
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
