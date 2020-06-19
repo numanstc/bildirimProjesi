@@ -15,7 +15,6 @@
     "@react-navigation/native": "^5.5.1",
     "@react-navigation/stack": "^5.5.1",
     "axios": "^0.19.2",
-    "buffer": "^5.6.0",
     "cheerio-without-node-native": "^0.20.2",
     "htmlparser2": "^4.1.0",
     "parse5": "^6.0.0",
@@ -27,9 +26,7 @@
     "react-native-splash-screen": "^3.2.0",
     "react-native-sqlite-storage": "^5.0.0",
     "react-native-status-bar-height": "^2.5.0",
-    "react-native-uuid": "^1.4.9",
     "react-native-vector-icons": "^6.6.0",
-    "safe-buffer": "^5.2.1",
     "websqlite": "^1.2.0"
   },
   "devDependencies": {
