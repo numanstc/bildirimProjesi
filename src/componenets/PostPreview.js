@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/Feather';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-// import Tags from 'kodilan-mobile/src/components/Tags';
-// import timeSince from 'kodilan-mobile/src/helpers/timeSince';
-// import PostType from 'kodilan-mobile/src/components/PostType';
-import {getPageLinks} from '../webScraping/getLinks';
-function PostPreview({data}) {
+// import Tags from 'kodilan../sqlIte2/createTables/Tags';
+// import timeSince from 'k../sqlIte2/insertPagespers/timeSince';
+// import PostType fro../sqlIte2/selecte/src/components/PostType';
+// import {pageLinks} from '../webScraping/pageLinks';
+
+function PostPreview() {
   const navigation = useNavigation();
   function onPressPost() {
     navigation.push('Post', {data});
@@ -53,7 +54,9 @@ function PostPreview({data}) {
             {/* {timeSince(data.updated_at)} */}
           </Text>
         </View>
+        <View>{/* <Text>{sonuc.Text}</Text> */}</View>
       </View>
+
       {/* {data.tags.length ? (
         <Tags
           tags={data.tags}

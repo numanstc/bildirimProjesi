@@ -1,0 +1,4 @@
+npm i websqlite --save
+
+  sqlite da tablo islemleri yapmak icin kullanılan bir eklenti.
+  bu eklenti ile crud islemleri çok daha kolay hale geliyor

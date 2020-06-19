@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Feather';
 // import Post from './pages/Post';
 import Header from './Header';
 import PostPreview from './PostPreview';
+import DenemeComp from './denemeComp';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,6 +15,7 @@ function Deneme() {
       <Header title="Header Baslık" />
       <PostPreview />
       <Text>deneme</Text>
+      <DenemeComp />
       <Icon name="bell" size={23} color="#eee" />
     </View>
   );
