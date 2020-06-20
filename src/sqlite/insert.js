@@ -18,10 +18,32 @@ export function insertPageLinks(pages, toplamVeri) {
       });
     },
     (error) => {
-      console.error('Veri Ekleme Hatası: ' + error.message);
+      console.error('PageLink Ekleme Hatası: ' + error.message);
     },
     () => {
       console.log('Veriler Eklendi');
+    },
+  );
+}
+
+export function insertPage(page, pageLinkId) {
+  db.transaction(
+    (tx) => {
+      tx.executeSql('INSERT INTO Pages VALUES (?, ?)', [
+        page.mesaj,
+        pageLinkId,
+      ]);
+    },
+    (error) => {
+      console.error('Page Ekleme Hatası: ' + error.message);
+    },
+    () => {
+      console.log('Page Verisi Eklendi');
+      // db.transaction((tx) => {
+      //   tx.executeSql('select last_insert_rowid()', [], (tx, result) => {
+      //     console.log('Son eklenene Verinin idsi: ' + result.rows.item(0));
+      //   });
+      // });
     },
   );
 }

@@ -10,7 +10,7 @@ export function selectPageLinks(lenght = 7) {
         'SELECT rowid, * FROM PageLinks ORDER BY sira DESC LIMIT ' + lenght,
         [],
         (tx, results) => {
-          console.log('Veri çekme işlemi başarıyla sonuçlandı');
+          console.log('PageLinks verisi çekme işlemi başarıyla sonuçlandı');
           for (var i = 0; i < results.rows.length; i++) {
             var row = results.rows.item(i);
             rows.push(row);
@@ -18,15 +18,46 @@ export function selectPageLinks(lenght = 7) {
           }
         },
         function (tx, error) {
-          console.error('Transection Error: ' + error.message);
+          console.error('PageLinks Select Sql Error: ' + error.message);
         },
       );
     },
     (error) => {
-      console.error('Veri Çekme Hatası: ' + error.message);
+      console.error('PageLinks Select Transection Error: ' + error.message);
     },
     () => {
-      console.log('Veriler Çekildi');
+      console.log('PageLinks Verileri Çekildi');
+    },
+  );
+
+  return rows;
+}
+
+export function selectPage(pageLinkId) {
+  let rows = [];
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        'SELECT rowid, * FROM Pages WHERE pageLinkId= ' + pageLinkId,
+        [],
+        (tx, results) => {
+          console.log('Page verisi çekme işlemi başarıyla sonuçlandı');
+          for (var i = 0; i < results.rows.length; i++) {
+            var row = results.rows.item(i);
+            rows.push(row);
+            // console.log('item:', results.rows.item(i));
+          }
+        },
+        function (tx, error) {
+          console.error('Page Select Sql Error: ' + error.message);
+        },
+      );
+    },
+    (error) => {
+      console.error('Page Select Transection Error: ' + error.message);
+    },
+    () => {
+      console.log('Page Veriler Çekildi');
     },
   );
 
