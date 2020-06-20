@@ -7,7 +7,6 @@ export function create() {
     (tx) => {
       // tx.executeSql('DROP TABLE IF EXISTS Users', []);
       // pageLinks tablos
-      // id int
       // sira int
       // link varchar(255)
       // mesaj varchar(255)
@@ -19,45 +18,40 @@ export function create() {
       );
 
       // page tablosus
-      // id int
       // mesaj Text
       // pageLinId int
       tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS Pages(id INTEGER PRIMARY KEY NOT NULL, mesaj TEXT, pageLinkId INTEGER)',
+        'CREATE TABLE IF NOT EXISTS Pages(mesaj TEXT, pageLinkId INTEGER)',
         [],
       );
 
       // images
-      // id int
       // alt text
       // height int
       // width int
       // pageId integer
       tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS Page(id INTEGER PRIMARY KEY NOT NULL, mesaj VARCHAR(255), height INTEGER, width INTEGER, src VARCHAR(255), pageId INTEGER)',
+        'CREATE TABLE IF NOT EXISTS Images(mesaj VARCHAR(255), height INTEGER, width INTEGER, src VARCHAR(255), pageId INTEGER)',
         [],
       );
 
       // links
-      // id int
       // name varchar(255)
       // link varchar(255)
       // pageId integer
       tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS Page(id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255), link VARCHAR(255), pageId INTEGER)',
+        'CREATE TABLE IF NOT EXISTS Links(name VARCHAR(255), link VARCHAR(255), pageId INTEGER)',
         [],
       );
 
-      // eks
+      // extras
       // name varchar(255)
       // link varchar(255)
       // pageId integer
       tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS Page(id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(255), link VARCHAR(255), pageId INTEGER)',
+        'CREATE TABLE IF NOT EXISTS Extras(name VARCHAR(255), link VARCHAR(255), pageId INTEGER)',
         [],
       );
-
-      // tx.executeSql('INSERT INTO Users (name) VALUES (:name)', ['Fatih']);
     },
     function (error) {
       console.log('Transaction ERROR: ' + error.message);
