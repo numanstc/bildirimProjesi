@@ -1,5 +1,5 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
+const cheerio = require('react-native-cheerio');
 
 const comuLink = 'http://ce.muhendislik.comu.edu.tr';
 const webAddres = comuLink + '/arsiv/duyurular?p=';

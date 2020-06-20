@@ -1,12 +1,12 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
+const cheerio = require('react-native-cheerio');
 // const pageLinks = require('./pageLinks');
 import {pageLinks} from './pageLinks';
 
 const comuLink = 'http://ce.muhendislik.comu.edu.tr';
 const webAddres = comuLink + '/arsiv/duyurular?p=';
 
-async function getLastPage(page = 1) {
+export default async function getLastPage(page = 1) {
   let sonSayfa = {
     p: '',
     lenght: '',
@@ -28,9 +28,9 @@ async function getLastPage(page = 1) {
     });
 
   await pageLinks(sonSayfa.p).then(
-    (veriList) => (sonSayfa.lenght = veriList.length),
+    (veriList) => (sonSayfa.lenght = parseInt(veriList.length)),
   );
   return sonSayfa;
 }
 
-getLastPage().then((page) => console.log(page));
+// getLastPage().then((page) => console.log(page));

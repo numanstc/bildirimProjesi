@@ -2,12 +2,12 @@ import {openDatabase} from 'react-native-sqlite-storage';
 
 const db = openDatabase({name: 'duyuru1.db', location: 'default'});
 
-export function selectPageLinks(lenght = 7) {
+export function selectPageLinks(limit = 7) {
   let rows = [];
   db.transaction(
     (tx) => {
       tx.executeSql(
-        'SELECT rowid, * FROM PageLinks ORDER BY sira DESC LIMIT ' + lenght,
+        'SELECT rowid, * FROM PageLinks ORDER BY sira DESC LIMIT ' + limit,
         [],
         (tx, results) => {
           console.log('PageLinks verisi çekme işlemi başarıyla sonuçlandı');
