@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {selectPageLinks, selectPage} from '../sqlite/select';
 import {insertPageLinks, insertPage} from '../sqlite/insert';
 import useDuyuruKontrol from '../hooks/useDuyuruKontrol';
+import useInsertPageLink from '../hooks/useInsertPageLink';
 
 export default function DenemeComp() {
   const [pageLink, setPageLink] = useState([]);
@@ -32,18 +33,19 @@ export default function DenemeComp() {
       sonYayinTarihi: '31.07.2020',
     },
   ];
+  const isInsert = useInsertPageLink({sira: 15, page: 1, bas: 0, bit: 7});
 
   useEffect(() => {
     // insertPageLinks(deger, 10);
 
     setPageLink(selectPageLinks());
-  }, []);
+  }, [isInsert]);
 
-  const [kontrolEt, loading] = useDuyuruKontrol();
-  if (!loading) {
-    console.log('Hook çağırıldı deger:' + kontrolEt);
-    console.log('Hook çağırıldı load:' + loading);
-  }
+  // const [kontrolEt, loading] = useDuyuruKontrol();
+  // if (!loading) {
+  //   console.log('Hook çağırıldı deger:' + kontrolEt);
+  //   console.log('Hook çağırıldı load:' + loading);
+  // }
 
   // useEffect(() => {
   //   if (insertPageBool) {
@@ -54,6 +56,14 @@ export default function DenemeComp() {
   //   setPage(selectPage(1));
   //   console.log('SetPage çalıştı');
   // }, [insertPageBool]);
+
+  if (isInsert) {
+    return (
+      <View>
+        <Text>İnserting</Text>
+      </View>
+    );
+  }
 
   return (
     <View>

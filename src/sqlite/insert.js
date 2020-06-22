@@ -2,8 +2,8 @@ import {openDatabase} from 'react-native-sqlite-storage';
 
 const db = openDatabase({name: 'duyuru1.db', location: 'default'});
 
-export function insertPageLinks(pages, toplamVeri) {
-  let sira = toplamVeri;
+export function insertPageLinks(pages, veriSirasi) {
+  let sira = veriSirasi;
   db.transaction(
     (tx) => {
       pages.forEach((page) => {
