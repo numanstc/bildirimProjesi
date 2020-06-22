@@ -7,45 +7,24 @@ import useInsertPageLink from '../hooks/useInsertPageLink';
 
 export default function DenemeComp() {
   const [pageLink, setPageLink] = useState([]);
-
-  const [page, setPage] = useState({
-    text: '',
-    link: [],
-    image: [],
-    ek: [],
-  });
-
+  const [page, setPage] = useState({});
   const [insertPageBool, setInsertPageBool] = useState(true);
-  const deger = [
-    {
-      link:
-        'http://ce.muhendislik.comu.edu.tr/arsiv/duyurular/turk-dili-final-sinavi-r571.html',
-      mesaj: 'TÜRK DİLİ FİNAL SINAVI',
-      yayinTarihi: '12.05.2020',
-      sonYayinTarihi: '02.06.2020',
-    },
-    {
-      link:
-        'http://ce.muhendislik.comu.edu.tr/arsiv/duyurular/onkosul-2019-2020-egitim-ogretim-yili-ve-sonrasind-r536.html',
-      mesaj:
-        'ÖNKOŞUL (2019-2020 Eğitim öğretim yılı ve sonrasında kayıtlı öğrenciler için)',
-      yayinTarihi: '27.09.2019',
-      sonYayinTarihi: '31.07.2020',
-    },
-  ];
-  const isInsert = useInsertPageLink({sira: 15, page: 1, bas: 0, bit: 7});
+  const [kontrolEt, loading] = useDuyuruKontrol();
+
+  // const isInsert = useInsertPageLink({sira: 15, page: 1, bas: 0, bit: 7});
 
   useEffect(() => {
     // insertPageLinks(deger, 10);
 
     setPageLink(selectPageLinks());
-  }, [isInsert]);
+  }, []);
 
-  // const [kontrolEt, loading] = useDuyuruKontrol();
-  // if (!loading) {
-  //   console.log('Hook çağırıldı deger:' + kontrolEt);
-  //   console.log('Hook çağırıldı load:' + loading);
-  // }
+  useEffect(() => {
+    if (!loading) {
+      console.log('Hook çağırıldı deger:' + kontrolEt);
+      console.log('Hook çağırıldı load:' + loading);
+    }
+  }, [loading, kontrolEt]);
 
   // useEffect(() => {
   //   if (insertPageBool) {
@@ -57,13 +36,13 @@ export default function DenemeComp() {
   //   console.log('SetPage çalıştı');
   // }, [insertPageBool]);
 
-  if (isInsert) {
-    return (
-      <View>
-        <Text>İnserting</Text>
-      </View>
-    );
-  }
+  // if (isInsert) {
+  //   return (
+  //     <View>
+  //       <Text>İnserting</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <View>
