@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {insertPageLinks} from '../sqlite/insert';
 import {pageLinks} from '../webScraping/pageLinks';
 
-import {selectPageLinks} from '../sqlite/select';
+import {selectPageLinksPromise} from '../sqlite/select';
 import duyuruKontrol from '../webScraping/duyuruKontrol';
 
 // const veri = {};
@@ -17,18 +17,23 @@ function useVeriKaydet() {
   const [loading, setLoading] = useState(true);
 
   const getFark = async () => {
-    const pageLinks = selectPageLinks(1);
-    return duyuruKontrol().then((uzunluk) => {
-      let fark = (uzunluk.p - 1) * 15 + uzunluk.lenght;
+    return selectPageLinksPromise(1).then((pageLinks) => {
+      return duyuruKontrol().then((uzunluk) => {
+        let fark = (uzunluk.p - 1) * 15 + uzunluk.lenght;
 
-      if (pageLinks.length > 0) {
-        fark -= pageLinks[0].sira;
-      }
-      return fark;
+        if (pageLinks.length > 0) {
+          fark -= pageLinks[0].sira;
+        }
+        return fark;
+      });
     });
   };
 
   async function getData(veri) {
+    if (veri.sira === 0) {
+      return;
+    }
+
     const data = await pageLinks(veri.page);
     const sira = veri.sira;
 

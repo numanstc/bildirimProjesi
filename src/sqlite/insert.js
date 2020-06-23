@@ -2,19 +2,17 @@ import {openDatabase} from 'react-native-sqlite-storage';
 
 const db = openDatabase({name: 'duyuru1.db', location: 'default'});
 
-export function insertPageLinks(pages, veriSirasi) {
-  let sira = veriSirasi;
+export function insertPageLinks(pages) {
   db.transaction(
     (tx) => {
       pages.forEach((page) => {
-        tx.executeSql('INSERT INTO PageLinks VALUES (?, ?, ?, ?, ?)', [
-          sira,
+        tx.executeSql('REPLACE INTO PageLinks VALUES (?, ?, ?, ?, ?)', [
+          page.sira,
           page.link,
           page.mesaj,
           page.yayinTarihi,
           page.sonYayinTarihi,
         ]);
-        sira -= 1;
       });
     },
     (error) => {

@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Alert, Text, View} from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
-
-import {selectPageLinks, selectPageLinksPromise} from '../sqlite/select';
+import {FlatList, Text, ActivityIndicator} from 'react-native';
+import {selectPageLinksPromise} from '../sqlite/select';
 import Header from '../componenets/Header';
-import useVeriKaydet from '../hooks/useVeriKaydet';
-import {pageLinks} from '../webScraping/pageLinks';
+import PostPreview from '../componenets/PostPreview';
 
-// Son sayfaları kontrol et
-// Eklenmiş sayfa varsa sqle insert et
-// sayfaları sqlden çek
-// sasyfaları göster
+import {guncelKaydet} from '../methods/veriKaydet';
+
+// Son sayfaları kontrol et +
+// Eklenmiş sayfa varsa sqle insert et +
+// sayfaları sqlden çek +
+// sasyfaları göster +
 function Recently() {
   const [recentlyPosts, setRecentlyPosts] = useState([]);
   const [refreshStatus, setRefreshStatus] = useState(false);
-  const [isLoad, setIsLoad] = useState(false);
   const [limit, setLimit] = useState(7);
 
   // bu method duzgun çalıyor
@@ -41,44 +39,33 @@ function Recently() {
     }
   }
 
-  const kaydediliyor = useVeriKaydet(); // ek veri varsa bul ve kayıt et
+  // güncel verilere bakılıp yazılması
   useEffect(() => {
-    if (!kaydediliyor) {
-      loadPosts();
-      console.log(recentlyPosts);
-      console.log('kaydediliyor: ' + kaydediliyor);
-    }
-  }, [kaydediliyor]);
-
-  // useEffect(() => {
-  //   // setRecentlyPosts(selectPageLinks());
-  //   loadPosts();
-  // }, []);
-
-  // useEffect(() => {
-  //   checkConnection();
-  // }, []);
+    loadPosts();
+    guncelKaydet().then((veri) => {
+      if (veri) loadPosts();
+    });
+  }, []);
 
   useEffect(() => {
     console.log('Recetly: ' + recentlyPosts.length);
   }, [recentlyPosts]);
+
   return (
     <React.Fragment>
-      <Header title="Son Eklenen İlanlar" />
+      <Header title="Son Eklenen Duyurular" />
       {recentlyPosts.length ? (
         <FlatList
           data={recentlyPosts}
-          renderItem={(item) => (
-            <View>
-              <Text>Data</Text>
-            </View>
-          )}
-          keyExtractor={(item) => item.slug}
+          renderItem={({item}) => <PostPreview data={item} />}
+          keyExtractor={(item) => item.rowid.toString()}
           refreshing={refreshStatus}
           onRefresh={() => refresh()}
+          // onEndReachedThreshold={2}
+          onEndReached={() => loadMore()}
+          ListFooterComponent={<ActivityIndicator color="#1d9b54" />}
         />
       ) : (
-        // <PostsLoading />
         <Text>Post Loading</Text>
       )}
     </React.Fragment>

@@ -7,54 +7,70 @@ import {useNavigation} from '@react-navigation/native';
 // import PostType fro../sqlIte2/selecte/src/components/PostType';
 // import {pageLinks} from '../webScraping/pageLinks';
 
-function PostPreview() {
+function PostPreview({data}) {
   const navigation = useNavigation();
   function onPressPost() {
     navigation.push('Post', {data});
   }
+  //   rowid
+  //   sira,
+  //   link,
+  //   mesaj,
+  //   yayinTarihi,
+  //   sonYayinTarihi,
 
-  const data = {
-    type: 'Type Deneme',
-    position: 'Pozisyon',
-    company: {
-      name: 'Company Name',
-    },
-    location: 'Location',
-  };
+  // const data = {
+
+  //   type: 'Type Deneme',
+  //   position: 'Pozisyon',
+  //   company: {
+  //     name: 'Company Name',
+  //   },
+  //   location: 'Location',
+  // };
+
   return (
     <TouchableOpacity
       style={styles.post}
       activeOpacity={0.75}
       onPress={() => onPressPost()}>
-      {/* // import timeSince from 'kodilan-mobile/src/helpers/timeSince'; // import */}
-      {/* PostType from 'kodilan-mobile/src/components/PostType'; */}
       <View style={styles.top}>
         <View style={{flex: 1}}>
-          <Text style={styles.title}>{data.position}</Text>
+          <Text style={styles.title}>{data.mesaj}</Text>
           {/* <PostType type={data.type} /> */}
         </View>
       </View>
       <View style={styles.info}>
-        <View style={styles.infoItem}>
+        {/* <View style={styles.infoItem}>
           <Icon name="briefcase" color="#333" size={14} />
           <Text style={styles.infoText} numberOfLines={1}>
             {data.company.name}
+            company name
           </Text>
-        </View>
-        <View style={styles.infoItem}>
+        </View> */}
+        {/* <View style={styles.infoItem}>
           <Icon name="map-pin" color="#333" size={14} />
           <Text style={styles.infoText} numberOfLines={1}>
-            {data.location}
+            {data.link}
           </Text>
-        </View>
+        </View> */}
         <View style={styles.infoItem}>
           <Icon name="clock" color="#333" size={14} />
           <Text style={styles.infoText} numberOfLines={1}>
-            time since
+            {data.yayinTarihi}
+            {/* time since */}
             {/* {timeSince(data.updated_at)} */}
           </Text>
         </View>
-        <View>{/* <Text>{sonuc.Text}</Text> */}</View>
+
+        <View style={styles.infoItem}>
+          <Icon name="clock" color="#333" size={14} />
+          <Text style={styles.infoText} numberOfLines={1}>
+            {data.sonYayinTarihi}
+            {/* time since */}
+            {/* {timeSince(data.updated_at)} */}
+          </Text>
+        </View>
       </View>
 
       {/* {data.tags.length ? (
