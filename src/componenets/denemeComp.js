@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useLayoutEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {selectPageLinks, selectPage} from '../sqlite/select';
+import {selectPageLinks, selectPageLinksPromise} from '../sqlite/select';
 import {insertPageLinks, insertPage} from '../sqlite/insert';
 import useDuyuruKontrol from '../hooks/useDuyuruKontrol';
 import useInsertPageLink from '../hooks/useInsertPageLink';
@@ -9,26 +9,23 @@ export default function DenemeComp() {
   const [pageLink, setPageLink] = useState([]);
   const [page, setPage] = useState({});
   const [insertPageBool, setInsertPageBool] = useState(true);
-  const [kontrolEt, loading] = useDuyuruKontrol();
+
+  const [fark, setFark] = useState(0);
+  const [load, setLoad] = useState(false);
 
   // const isInsert = useInsertPageLink({sira: 15, page: 1, bas: 0, bit: 7});
 
-  useEffect(() => {
-    // insertPageLinks(deger, 10);
-
-    setPageLink(selectPageLinks());
-  }, []);
-
-  useEffect(() => {
-    if (!loading) {
-      console.log('Hook çağırıldı deger:' + kontrolEt);
-      console.log('Hook çağırıldı load:' + loading);
-    }
-  }, [loading, kontrolEt]);
+  // const [kontrolEt, loading] = useDuyuruKontrol();
+  // useEffect(() => {
+  //   if (!loading) {
+  //     console.log('Hook çağırıldı deger:' + kontrolEt);
+  //     console.log('Hook çağırıldı load:' + loading);
+  //   }
+  // }, [loading, kontrolEt]);
 
   // useEffect(() => {
   //   if (insertPageBool) {
-  //     insertPage(pageDeger, 1);
+  //     // insertPage(pageDeger, 1);
   //     setInsertPageBool(false);
   //   }
 
@@ -44,6 +41,24 @@ export default function DenemeComp() {
   //   );
   // }
 
+  // useEffect(() => {
+  //   if (load) {
+  //   }
+  //   // pageLink.map((page) => console.log(page.mesaj));
+  // }, [load]);
+
+  // import edilmeden çalışmıyor
+  // useEffect(() => {
+  //   setPageLink(selectPageLinks());
+  //   console.log('Page link len:' + pageLink.length);
+  // }, []);
+
+  useEffect(() => {
+    selectPageLinksPromise(7).then((list) => setPageLink(list));
+  }, []);
+
+  // useEffect(() => {
+  // }, pageLink);
   return (
     <View>
       {pageLink.map((page, index) => (

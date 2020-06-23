@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import Header from './Header';
 import PostPreview from './PostPreview';
 import DenemeComp from './denemeComp';
+import Recently from '../pages/Recently';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +49,7 @@ function Tabs() {
       }}>
       <Tab.Screen
         name="Recently"
-        component={Deneme}
+        component={Recently}
         options={{
           tabBarLabel: 'Son Eklenenler',
         }}

@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import {selectPageLinks} from '../sqlite/select';
 import duyuruKontrol from '../webScraping/duyuruKontrol';
 
-function useDuyuruKontrol() {
+function useDuyuruKontrol(kontrolEt = true) {
   const [bolumFark, setBolumFark] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -12,14 +12,18 @@ function useDuyuruKontrol() {
     duyuruKontrol().then((uzunluk) => {
       let fark = (fark = (uzunluk.p - 1) * 15 + uzunluk.lenght);
 
-      if (pageLinks.length > 0) fark -= pageLinks[0].sira;
+      if (pageLinks.length > 0) {
+        fark -= pageLinks[0].sira;
+      }
 
       setBolumFark(fark);
       setLoading(false);
     });
   };
   useEffect(() => {
-    getdata();
+    if (kontrolEt) {
+      getdata();
+    }
   }, []);
 
   return [bolumFark, loading];
