@@ -2,51 +2,53 @@ import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/Feather';
-import SocialButtons from '../components/SocialButtons';
-import ShareButton from '../components/ShareButton';
-import Content from '../components/Content';
-import Tags from '../components/Tags';
-import Apply from '../components/Apply';
-import CompanyImage from '../components/CompanyImage';
-import timeSince from '../helpers/timeSince';
 
 function Post({route}) {
   const data = route.params.data;
+  console.log(data.link);
   return (
     <View style={styles.container}>
       <Header
-        title={data.position}
-        button={<ShareButton url={data.post_url} />}
+        // title={data.position}
+        title="Duyuru İçerik"
+        // button={<ShareButton url={data.post_url} />}
       />
       <ScrollView style={styles.container}>
         <View style={styles.company}>
-          <CompanyImage
+          {/* <CompanyImage
             style={styles.image}
             uri={data.company.logo}
             width={48}
             height={48}
             company_slug={data.company.slug}
-          />
+          /> */}
           <View style={styles.companyDetails}>
             <Text style={styles.companyName} numberOfLines={1}>
-              {data.company.name}
+              {/* {data.company.name} */}
+              compnay name
             </Text>
             <Text style={styles.postTitle} numberOfLines={1}>
-              {data.position}
+              {/* {data.position} */}
+              poszisyon
             </Text>
           </View>
         </View>
-        <Content
+        {/* <Content
           style={{width: '100%', marginVertical: 25}}
           content={data.description}
-        />
+        /> */}
         <View style={styles.card}>
           <View style={styles.item}>
             <View style={styles.itemHeader}>
               <Icon name="calendar" color="#26ae61" size={18} />
               <Text style={styles.itemHeaderText}>Son Güncelleme:</Text>
             </View>
-            <Text style={styles.itemContent}>{timeSince(data.updated_at)}</Text>
+            <Text style={styles.itemContent}>
+              {
+                // timeSince(data.updated_at)
+              }
+              Time since
+            </Text>
           </View>
           <View style={styles.item}>
             <View style={styles.itemHeader}>
@@ -54,7 +56,10 @@ function Post({route}) {
               <Text style={styles.itemHeaderText}>Pozisyon:</Text>
             </View>
             <View style={{flex: 1}}>
-              <Text style={styles.itemContent}>{data.position}</Text>
+              <Text style={styles.itemContent}>
+                {/* {data.position} */}
+                pozisyon 2
+              </Text>
             </View>
           </View>
           <View style={styles.item}>
@@ -63,7 +68,10 @@ function Post({route}) {
               <Text style={styles.itemHeaderText}>Lokasyon:</Text>
             </View>
             <View style={{flex: 1}}>
-              <Text style={styles.itemContent}>{data.location}</Text>
+              <Text style={styles.itemContent}>
+                {/* {data.location}  */}
+                yer
+              </Text>
             </View>
           </View>
           <View style={styles.item}>
@@ -71,7 +79,7 @@ function Post({route}) {
               <Icon name="bookmark" color="#26ae61" size={18} />
               <Text style={styles.itemHeaderText}>Etiketler:</Text>
             </View>
-            <View style={{flex: 1}}>
+            {/* <View style={{flex: 1}}>
               {data.tags.length ? (
                 <Tags
                   tags={data.tags}
@@ -81,7 +89,7 @@ function Post({route}) {
                   tagTextStyle={styles.tagText}
                 />
               ) : null}
-            </View>
+            </View> */}
           </View>
           <View style={styles.item}>
             <View style={styles.itemHeader}>
@@ -89,19 +97,19 @@ function Post({route}) {
               <Text style={styles.itemHeaderText}>Bağlantılar:</Text>
             </View>
             <View style={{flex: 1}}>
-              <SocialButtons
+              {/* <SocialButtons
                 web={data.company.www}
                 twitter={data.company.twitter}
                 linkedin={data.company.linkedin}
-              />
+              /> */}
             </View>
           </View>
         </View>
-        <Apply
+        {/* <Apply
           email={data.apply_email}
           url={data.apply_url}
           position={data.position}
-        />
+        /> */}
       </ScrollView>
     </View>
   );

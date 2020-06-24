@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
@@ -8,15 +8,18 @@ import PostPreview from './PostPreview';
 import DenemeComp from './denemeComp';
 import Recently from '../pages/Recently';
 
+import BackgroundJobs1 from '../methods/backgroundJobs1';
+import backgroundJobs from '../methods/backgroundJobs';
+
 const Tab = createBottomTabNavigator();
 
 function Deneme() {
   return (
     <View>
       <Header title="Header Baslık" />
-      <PostPreview />
+      {/* <PostPreview /> */}
       <Text>deneme</Text>
-      <DenemeComp />
+      {/* <DenemeComp /> */}
       <Icon name="bell" size={23} color="#eee" />
     </View>
   );
@@ -56,7 +59,7 @@ function Tabs() {
       />
       <Tab.Screen
         name="Search"
-        component={Deneme}
+        component={BackgroundJobs1}
         options={{
           tabBarLabel: 'Arama',
         }}

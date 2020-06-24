@@ -4,11 +4,10 @@ import {
   selectPageLinksPromise,
   selectPageLinksCountPromise,
 } from '../sqlite/select';
-import Header from '../componenets/Header';
-import PostPreview from '../componenets/PostPreview';
+import Header from '../components/Header';
+import PostPreview from '../components/PostPreview';
 
 import {guncelKaydet, eskiDataKaydet} from '../methods/veriKaydet';
-import notification from '../methods/notification';
 
 // Son sayfaları kontrol et +
 // Eklenmiş sayfa varsa sqle insert et +
@@ -68,7 +67,6 @@ function Recently() {
 
   // güncel verilere bakılıp yazılması
   useEffect(() => {
-    notification('Deneme baslık', 'Deneme mesaj');
     loadPosts();
     guncelKaydet().then((veri) => {
       if (veri) loadPosts();

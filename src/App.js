@@ -4,8 +4,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from 'react-native-splash-screen';
 
-import Tabs from './componenets/Tabs';
 import create from './sqlite/create';
+import backgroundJobs from './methods/backgroundJobs';
+import Recently from './pages/Recently';
+import Post from './pages/Post';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +22,7 @@ function App() {
 
   useEffect(() => {
     fetchData();
+    backgroundJobs();
   }, []);
 
   useEffect(() => {
@@ -28,7 +31,7 @@ function App() {
   if (isLoading)
     return (
       <View>
-        <Text>Loading...</Text>
+        <Text>Veritabanı oluşturuluyor...</Text>
       </View>
     );
   return (
@@ -36,14 +39,11 @@ function App() {
       <StatusBar backgroundColor="#2E4E8C" barStyle="light-content" />
 
       <Stack.Navigator headerMode="none">
-        <Stack.Screen name="Tabs" component={Tabs} />
-        {/* <Stack.Screen name="SearchResults" component={SearchResults} /> */}
-        {/* <Stack.Screen name="Post" component={Post} /> */}
+        <Stack.Screen name="Tabs" component={Recently} />
+        <Stack.Screen name="Post" component={Post} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-// const styles = StyleSheet.create({});
 
 export default App;
