@@ -43,8 +43,9 @@ export function selectPageLinks(limit = 7, sayfaAtla) {
   return rows;
 }
 
-export function selectPageLinksPromise(limit = 7) {
+export function selectPageLinksPromise(limit) {
   return new Promise((resolve, reject) => {
+    console.log('Limit Değeri:' + limit);
     let rows = [];
     db.transaction(
       (tx) => {
@@ -58,7 +59,66 @@ export function selectPageLinksPromise(limit = 7) {
               rows.push(row);
               // console.log('item:', results.rows.item(i));
             }
+            console.log('Rows len:' + rows.length);
+
             resolve(rows);
+          },
+          function (tx, error) {
+            console.error('PageLinks Select Sql Error: ' + error.message);
+          },
+        );
+      },
+      (error) => {
+        console.error('PageLinks Select Transection Error: ' + error.message);
+      },
+      () => {
+        console.log('PageLinks Verileri Çekildi');
+      },
+    );
+  });
+}
+
+export function selectPageLinksCountPromise() {
+  return new Promise((resolve, reject) => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          'SELECT COUNT(*) FROM PageLinks',
+          [],
+          (tx, results) => {
+            console.log('PageLinks verisi sayma işlemi başarıyla sonuçlandı');
+
+            console.log('Rows len:' + results.rows.item(0));
+
+            resolve(results.rows.item(0));
+          },
+          function (tx, error) {
+            console.error('PageLinks Select Sql Error: ' + error.message);
+          },
+        );
+      },
+      (error) => {
+        console.error('PageLinks Select Transection Error: ' + error.message);
+      },
+      () => {
+        console.log('PageLinks Verileri Çekildi');
+      },
+    );
+  });
+}
+
+export function selectPageLinkWithSiraPromise(sira) {
+  return new Promise((resolve, reject) => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          'SELECT rowid, * FROM PageLinks WHERE sira=' + sira,
+          [],
+          (tx, results) => {
+            // console.log(
+            //   `PageLinks sira = ${sira} verisi çekme işlemi başarıyla sonuçlandı`,
+            // );
+            resolve(results.rows.item(0));
           },
           function (tx, error) {
             console.error('PageLinks Select Sql Error: ' + error.message);
