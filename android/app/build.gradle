@@ -195,6 +195,9 @@ dependencies {
     // benim iconlar için koyduğum
     implementation project(':react-native-vector-icons')
 
+    // push notification iöin kodum
+    implementation project(':react-native-push-notification')
+
     // benim sqlite için koyduğum
     implementation project(':react-native-sqlite-storage')
 

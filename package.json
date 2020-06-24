@@ -22,6 +22,7 @@
     "react-native": "0.62.2",
     "react-native-cheerio": "^1.0.0-rc.4",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-push-notification": "^3.5.2",
     "react-native-safe-area-context": "^3.0.4",
     "react-native-screens": "^2.8.0",
     "react-native-splash-screen": "^3.2.0",
