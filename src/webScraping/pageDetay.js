@@ -1,12 +1,12 @@
 const axios = require('axios');
-const cheerio = require('cheerio');
+const cheerio = require('react-native-cheerio');
 
 export async function pageDetay(siteAddress) {
-  // module.exports = async function pageDetay(siteAddress) {
   const sonuc = {
     text: '',
     link: [],
     image: [],
+    ul: [],
     ek: [],
   };
   function dataYaz(parent) {
@@ -19,13 +19,18 @@ export async function pageDetay(siteAddress) {
       if (tagName === 'a') {
         // namedeparent.attribs.title View this pdf file linkini
         // diğeri kalan bütün linkleri alıyor
-        sonuc.link.push({
-          name:
-            parent.childNodes.length > 0
-              ? parent.childNodes[0].data
-              : parent.attribs.title,
-          link: parent.attribs.href,
-        });
+        // sonuc.text += `<a href='${}'`
+
+        let name = '';
+        let link = parent.attribs.href;
+
+        if (parent.childNodes.length > 0) {
+          name = parent.childNodes[0].data;
+          sonuc.text += ' <a href=' + link + '>' + name + '</a>';
+        } else {
+          let name = parent.attribs.title;
+          sonuc.link.push({name, link});
+        }
         return;
       } else if (tagName === 'img') {
         sonuc.image.push({
@@ -41,6 +46,46 @@ export async function pageDetay(siteAddress) {
       parent.childNodes.map((node) => {
         dataYaz(node);
       });
+  }
+
+  function listeYaz(parent) {
+    const tagName = parent.tagName;
+    const type = parent.type;
+    console.log('Tagname: ' + tagName);
+
+    parent.childNodes.forEach((element) => {
+      if (element.type === 'tag' && element.name === 'li') {
+        let li = '';
+        function getLiText(parent) {
+          const tagName = parent.tagName;
+          const type = parent.type;
+
+          if (type === 'text') {
+            li += ' ' + parent.data;
+          } else if (type === 'tag') {
+            if (tagName === 'a') {
+              let name = '';
+              let link = parent.attribs.href;
+              if (parent.childNodes.length > 0) {
+                name = parent.childNodes[0].data;
+              } else {
+                name = parent.attribs.title;
+              }
+              li += ' <a href=' + link + '>' + name + '</a>';
+
+              return;
+            }
+          }
+          if (parent.childNodes === null) return;
+          if (parent.childNodes.length > 0)
+            parent.childNodes.map((node) => {
+              getLiText(node);
+            });
+        }
+        getLiText(element);
+        sonuc.ul.push(li);
+      }
+    });
   }
 
   function eklerYaz(parent) {
@@ -61,6 +106,8 @@ export async function pageDetay(siteAddress) {
     container.childNodes.map((node) => {
       if (node.tagName === 'p') {
         dataYaz(node);
+      } else if (node.tagName === 'ul') {
+        listeYaz(node);
       }
     });
 
@@ -76,5 +123,3 @@ export async function pageDetay(siteAddress) {
 
   return sonuc;
 }
-
-// pageDetay(siteAddress[4]).then((sonuc) => console.log(sonuc));
