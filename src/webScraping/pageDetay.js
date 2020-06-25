@@ -26,11 +26,11 @@ export async function pageDetay(siteAddress) {
 
         if (parent.childNodes.length > 0) {
           name = parent.childNodes[0].data;
-          sonuc.text += ' <a href=' + link + '>' + name + '</a>';
+          // sonuc.text += ' <a href=' + link + '>' + name + '</a>';
         } else {
-          let name = parent.attribs.title;
-          sonuc.link.push({name, link});
+          name = parent.attribs.title;
         }
+        sonuc.link.push({name, link});
         return;
       } else if (tagName === 'img') {
         sonuc.image.push({

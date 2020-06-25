@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, Text, ActivityIndicator, View} from 'react-native';
-import {
-  selectPageLinksPromise,
-  selectPageLinksCountPromise,
-} from '../sqlite/select';
+import {selectPageLinksPromise} from '../sqlite/select';
 import Header from '../components/Header';
 import PostPreview from '../components/PostPreview';
 
@@ -29,17 +26,6 @@ function Recently() {
 
   function loadMore() {
     const newLimit = limit + 15;
-    console.log('newLimit:' + newLimit);
-    // return selectPageLinksPromise(newLimit).then((list) => {
-    //   setRecentlyPosts(list);
-    //   setLimit(newLimit);
-    //   selectPageLinksCountPromise().then((count) => {
-    //     console.log('List Count: ');
-    //     for (let property in count) {
-    //       console.log(property + '=' + count[property]);
-    //     }
-    //   });
-    // });
 
     const newPage = page + 1;
     return eskiDataKaydet(newPage).then(() => {
@@ -47,12 +33,6 @@ function Recently() {
       return selectPageLinksPromise(newLimit).then((list) => {
         setRecentlyPosts(list);
         setLimit(newLimit);
-        selectPageLinksCountPromise().then((count) => {
-          console.log('List Count: ');
-          for (let property in count) {
-            console.log(property + '=' + count[property]);
-          }
-        });
       });
     });
   }
@@ -73,10 +53,6 @@ function Recently() {
     });
   }, []);
 
-  // useEffect(() => {
-  //   console.log('Recetly: ' + recentlyPosts.length);
-  // }, [recentlyPosts]);
-
   const footer = () => {
     return (
       <View style={{padding: 20, borderWidth: 1, borderTopColor: '#CDE0CE'}}>
@@ -95,7 +71,6 @@ function Recently() {
           keyExtractor={(item) => item.rowid.toString()}
           refreshing={refreshStatus}
           onRefresh={() => refresh()}
-          // onEndReachedThreshold={2}
           onEndReached={() => loadMore()}
           onEndReachedThreshold={0.3}
           ListFooterComponent={footer}

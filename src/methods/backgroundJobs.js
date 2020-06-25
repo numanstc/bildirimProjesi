@@ -6,8 +6,6 @@ import {selectPageLinksPromise} from '../sqlite/select';
 import duyuruKontrol from '../webScraping/duyuruKontrol';
 
 const jobKey = 'BildirimKontrol';
-// This has to run outside of the component definition since the component is never
-// instantiated when running in headless mode
 BackgroundJob.register({
   jobKey: jobKey,
   job: () => {
@@ -19,7 +17,7 @@ BackgroundJob.register({
 function getFark() {
   return selectPageLinksPromise(1).then((pageLinks) => {
     return duyuruKontrol().then((uzunluk) => {
-      let fark = (uzunluk.p - 1) * 15 + uzunluk.lenght;
+      let fark = uzunluk.p * 15 + uzunluk.lenght;
 
       if (pageLinks.length > 0) {
         fark -= pageLinks[0].sira;
@@ -46,11 +44,10 @@ function bildirimGoster() {
 export default function backgroundJobs() {
   BackgroundJob.schedule({
     jobKey: jobKey,
-    period: 15000,
+    period: 3600000,
   });
 
   // BackgroundJob.cancel({jobKey: jobKey});
-  //  BackgroundJob.cancelAll();
-  console.log('backgroundJobs Çalıştı');
+  // BackgroundJob.cancelAll();
 }
 AppRegistry.registerComponent('backgroundJobs', () => backgroundJobs);

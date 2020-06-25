@@ -24,24 +24,93 @@ export function insertPageLinks(pages) {
   );
 }
 
-export function insertPage(page, pageLinkId) {
+export async function insertPage(mesaj, pageLinkId) {
   db.transaction(
     (tx) => {
-      tx.executeSql('INSERT INTO Pages VALUES (?, ?)', [
-        page.mesaj,
-        pageLinkId,
-      ]);
+      if (mesaj === undefined || mesaj.trim() === 0) {
+        tx.executeSql('REPLACE INTO Pages VALUES (?, ?)', [null, pageLinkId]);
+      } else {
+        tx.executeSql('REPLACE INTO Pages VALUES (?, ?)', [
+          mesaj.trim(),
+          pageLinkId,
+        ]);
+      }
     },
     (error) => {
       console.error('Page Ekleme Hatası: ' + error.message);
     },
     () => {
       console.log('Page Verisi Eklendi');
-      // db.transaction((tx) => {
-      //   tx.executeSql('select last_insert_rowid()', [], (tx, result) => {
-      //     console.log('Son eklenene Verinin idsi: ' + result.rows.item(0));
-      //   });
-      // });
+    },
+  );
+}
+
+export function insertUl(ul, pageId) {
+  db.transaction(
+    (tx) => {
+      tx.executeSql('REPLACE INTO ul VALUES (?, ?)', [ul, pageId]);
+    },
+    (error) => {
+      console.error('ul Ekleme Hatası: ' + error.message);
+    },
+    () => {
+      console.log('ul Verisi Eklendi');
+    },
+  );
+}
+
+export function insertImage(image, pageId) {
+  db.transaction(
+    (tx) => {
+      tx.executeSql('REPLACE INTO Images VALUES (?, ?, ?, ?, ?)', [
+        image.mesaj,
+        image.height,
+        image.width,
+        image.src,
+        pageId,
+      ]);
+    },
+    (error) => {
+      console.error('Image Ekleme Hatası: ' + error.message);
+    },
+    () => {
+      console.log('Image Verisi Eklendi');
+    },
+  );
+}
+
+export function insertLink(link, pageId) {
+  db.transaction(
+    (tx) => {
+      tx.executeSql('REPLACE INTO Links VALUES (?, ?, ?)', [
+        link.name,
+        link.link,
+        pageId,
+      ]);
+    },
+    (error) => {
+      console.error('Links Ekleme Hatası: ' + error.message);
+    },
+    () => {
+      console.log('Links Verisi Eklendi');
+    },
+  );
+}
+
+export function insertExtra(extra, pageId) {
+  db.transaction(
+    (tx) => {
+      tx.executeSql('REPLACE INTO Extras VALUES (?, ?, ?)', [
+        extra.name,
+        extra.link,
+        pageId,
+      ]);
+    },
+    (error) => {
+      console.error('Extras Ekleme Hatası: ' + error.message);
+    },
+    () => {
+      console.log('Extras Verisi Eklendi');
     },
   );
 }

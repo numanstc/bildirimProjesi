@@ -13,7 +13,10 @@ export default function create() {
       sql: 'CREATE TABLE IF NOT EXISTS Pages(mesaj TEXT, pageLinkId INTEGER)',
       name: 'Pages',
     },
-
+    {
+      sql: 'CREATE TABLE IF NOT EXISTS ul(mesaj VARCHAR(255), pageId INTEGER)',
+      name: 'Images',
+    },
     {
       sql:
         'CREATE TABLE IF NOT EXISTS Images(mesaj VARCHAR(255), height INTEGER, width INTEGER, src VARCHAR(255), pageId INTEGER)',
@@ -54,8 +57,12 @@ export default function create() {
 // mesaj Text
 // pageLinId int
 
+//ul
+// mesaj text
+// pageId integer
+
 // images tablosu
-// alt text
+// mesaj text
 // height int
 // width int
 // pageId integer

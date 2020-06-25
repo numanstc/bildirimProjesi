@@ -1,85 +1,126 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/Feather';
+import {selectPagePromise, selectPage} from '../sqlite/select';
+import {getPageWithSubContents} from '../methods/veriCek';
+import {FlatList} from 'react-native-gesture-handler';
+import LisItem from '../components/LisItem';
 
+// veridini db olup olmadığını sorulayıp
+// b) db de değilse db ye ekle
+// a) db de ise çek ve göster
 function Post({route}) {
+  const [postData, setPostData] = useState({});
+  const [load, setLoad] = useState(false);
+  const [listItems, setListItems] = useState();
   const data = route.params.data;
-  console.log(data.link);
+  // console.log(data.link);
+
+  // Post verilerisini DB den çek postData ya ata
+  function loadPost() {
+    getPageWithSubContents(data).then((page) => {
+      setPostData(page);
+      setLoad(true);
+      for (let property in page) {
+        console.log(property + '=' + page[property]);
+      }
+      page.ul.forEach((element) => {
+        for (let property in element) {
+          console.log(property + '=' + element[property]);
+        }
+      });
+    });
+  }
+
+  useEffect(() => {
+    loadPost();
+  }, []);
+
+  useEffect(() => {
+    if (load) {
+      const li = postData.ul.map((item) => {
+        return (
+          <Text key={item.rowid} style={styles.postTitle}>
+            {item.mesaj}
+          </Text>
+        );
+      });
+      setListItems(li);
+    }
+  }, [load]);
+
   return (
     <View style={styles.container}>
-      <Header
-        // title={data.position}
-        title="Duyuru İçerik"
-        // button={<ShareButton url={data.post_url} />}
-      />
-      <ScrollView style={styles.container}>
+      <Header title={data.mesaj} />
+      <View style={styles.company}>
+        <View style={styles.companyDetails}>
+          <Text style={styles.companyName}>{postData.mesaj}</Text>
+          {/* <Text style={styles.postTitle}>{postData.mesaj}</Text> */}
+        </View>
+      </View>
+
+      {postData.ul && (
         <View style={styles.company}>
-          {/* <CompanyImage
-            style={styles.image}
-            uri={data.company.logo}
-            width={48}
-            height={48}
-            company_slug={data.company.slug}
-          /> */}
           <View style={styles.companyDetails}>
-            <Text style={styles.companyName} numberOfLines={1}>
-              {/* {data.company.name} */}
-              compnay name
-            </Text>
-            <Text style={styles.postTitle} numberOfLines={1}>
-              {/* {data.position} */}
-              poszisyon
-            </Text>
+            {listItems}
+            {/* <FlatList
+              data={postData.ul}
+              renderItem={({item}) => (
+              )}
+              keyExtractor={(item) => item.rowid.toString()}
+            /> */}
           </View>
         </View>
-        {/* <Content
+      )}
+
+      {/* <Content
           style={{width: '100%', marginVertical: 25}}
           content={data.description}
         /> */}
-        <View style={styles.card}>
-          <View style={styles.item}>
-            <View style={styles.itemHeader}>
-              <Icon name="calendar" color="#26ae61" size={18} />
-              <Text style={styles.itemHeaderText}>Son Güncelleme:</Text>
-            </View>
+      <View style={styles.card}>
+        <View style={styles.item}>
+          <View style={styles.itemHeader}>
+            <Icon name="calendar" color="#26ae61" size={18} />
+            <Text style={styles.itemHeaderText}>Son Güncelleme:</Text>
+          </View>
+          <Text style={styles.itemContent}>
+            {
+              // timeSince(data.updated_at)
+            }
+            Time since
+          </Text>
+        </View>
+        <View style={styles.item}>
+          <View style={styles.itemHeader}>
+            <Icon name="user" color="#26ae61" size={18} />
+            <Text style={styles.itemHeaderText}>Pozisyon:</Text>
+          </View>
+          <View style={{flex: 1}}>
             <Text style={styles.itemContent}>
-              {
-                // timeSince(data.updated_at)
-              }
-              Time since
+              {/* {data.position} */}
+              pozisyon 2
             </Text>
           </View>
-          <View style={styles.item}>
-            <View style={styles.itemHeader}>
-              <Icon name="user" color="#26ae61" size={18} />
-              <Text style={styles.itemHeaderText}>Pozisyon:</Text>
-            </View>
-            <View style={{flex: 1}}>
-              <Text style={styles.itemContent}>
-                {/* {data.position} */}
-                pozisyon 2
-              </Text>
-            </View>
+        </View>
+        <View style={styles.item}>
+          <View style={styles.itemHeader}>
+            <Icon name="map-pin" color="#26ae61" size={18} />
+            <Text style={styles.itemHeaderText}>Lokasyon:</Text>
           </View>
-          <View style={styles.item}>
-            <View style={styles.itemHeader}>
-              <Icon name="map-pin" color="#26ae61" size={18} />
-              <Text style={styles.itemHeaderText}>Lokasyon:</Text>
-            </View>
-            <View style={{flex: 1}}>
-              <Text style={styles.itemContent}>
-                {/* {data.location}  */}
-                yer
-              </Text>
-            </View>
+          <View style={{flex: 1}}>
+            <Text style={styles.itemContent}>
+              {/* {data.location}  */}
+              yer
+            </Text>
           </View>
-          <View style={styles.item}>
-            <View style={styles.itemHeader}>
-              <Icon name="bookmark" color="#26ae61" size={18} />
-              <Text style={styles.itemHeaderText}>Etiketler:</Text>
-            </View>
-            {/* <View style={{flex: 1}}>
+        </View>
+        <View style={styles.item}>
+          <View style={styles.itemHeader}>
+            <Icon name="bookmark" color="#26ae61" size={18} />
+            <Text style={styles.itemHeaderText}>Etiketler:</Text>
+          </View>
+          {/* <View style={{flex: 1}}>
               {data.tags.length ? (
                 <Tags
                   tags={data.tags}
@@ -90,27 +131,26 @@ function Post({route}) {
                 />
               ) : null}
             </View> */}
+        </View>
+        <View style={styles.item}>
+          <View style={styles.itemHeader}>
+            <Icon name="share-2" color="#26ae61" size={18} />
+            <Text style={styles.itemHeaderText}>Bağlantılar:</Text>
           </View>
-          <View style={styles.item}>
-            <View style={styles.itemHeader}>
-              <Icon name="share-2" color="#26ae61" size={18} />
-              <Text style={styles.itemHeaderText}>Bağlantılar:</Text>
-            </View>
-            <View style={{flex: 1}}>
-              {/* <SocialButtons
+          <View style={{flex: 1}}>
+            {/* <SocialButtons
                 web={data.company.www}
                 twitter={data.company.twitter}
                 linkedin={data.company.linkedin}
               /> */}
-            </View>
           </View>
         </View>
-        {/* <Apply
+      </View>
+      {/* <Apply
           email={data.apply_email}
           url={data.apply_url}
           position={data.position}
         /> */}
-      </ScrollView>
     </View>
   );
 }

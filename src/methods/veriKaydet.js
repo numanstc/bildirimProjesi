@@ -3,8 +3,17 @@ import {
   selectPageLinkWithSiraPromise,
 } from '../sqlite/select';
 import duyuruKontrol from '../webScraping/duyuruKontrol';
+import {pageDetay} from '../webScraping/pageDetay';
 import {pageLinks} from '../webScraping/pageLinks';
-import {insertPageLinks} from '../sqlite/insert';
+import {
+  insertPageLinks,
+  insertPage,
+  insertImage,
+  insertLink,
+  insertExtra,
+  insertUl,
+} from '../sqlite/insert';
+import {selectPagePromise} from '../sqlite/select';
 
 export function guncelKaydet() {
   return new Promise((resolve, reject) => {
@@ -132,70 +141,23 @@ export function eskiDataKaydet(page) {
         resolve(true);
       });
   });
-  // return new Promise((resolve, reject) => {
-  //   return duyuruKontrol()
-  //     .then((uzunluk) => (uzunluk.p - page) * 15 + uzunluk.lenght) //verilerin toplam uzunluğu
-  //     .then((sira) => {
-  //       // listedeki jsonlara sira parametresini ekle
-  //       return pageLinks(page).then((data) => {
-  //         let duyuruSira = sira;
-  //         const hazirlanmisList = [];
-  //         data.forEach((page) => {
-  //           hazirlanmisList.push({
-  //             ...page,
-  //             sira: duyuruSira,
-  //           });
-  //           duyuruSira--;
-  //         });
-  //         // liste kontrol
-  //         // hazirlanmisList.forEach((count) => {
-  //         //   for (let property in count) {
-  //         //     console.log(property + '=' + count[property]);
-  //         //   }
-  //         // });
-  //         return hazirlanmisList;
-  //       });
-  //     })
-  //     .then((list) => {
-  //       // girilmemiş değerleri ayır
+}
 
-  //       async function eklenecekPageLinkler() {
-  //         let eklenecekler = [];
+export function pageKaydet(pageLink) {
+  return new Promise((resolve, reject) => {
+    return pageDetay(pageLink.link).then((page) => {
+      insertPage(page.text, pageLink.rowid)
+        .then(() => selectPagePromise(pageLink.rowid))
+        .then((savedPage) => {
+          // burada kalan sayfalar içinde bir insert işlemi yap
+          console.log('Ul len:' + page.ul.length);
+          page.image.forEach((image) => insertImage(image, savedPage[0].rowid));
+          page.link.forEach((link) => insertLink(link, savedPage[0].rowid));
+          page.ek.forEach((ek) => insertExtra(ek, savedPage[0].rowid));
+          page.ul.forEach((li) => insertUl(li, savedPage[0].rowid));
 
-  //         for (const page of list) {
-  //           const gelenDeger = await selectPageLinkWithSiraPromise(page.sira);
-
-  //           // console.log('Gelen Deger: ' + gelenDeger);
-
-  //           if (gelenDeger === undefined) {
-  //             console.log('İf içinde');
-  //             eklenecekler.push(page);
-  //             for (let property in page) {
-  //               console.log(property + '=' + page[property]);
-  //             }
-  //           }
-  //           // selectPageLinkWithSiraPromise(page.sira).then((gelenDeger) => {
-  //           // });
-  //         }
-
-  //         // console.log('Eklenecekler Lenght: ' + eklenecekler.length);
-  //         // eklenecekler.forEach((count) => {
-  //         //   for (let property in count) {
-  //         //     console.log(property + '=' + count[property]);
-  //         //   }
-  //         // });
-  //         return eklenecekler;
-  //       }
-
-  //       return eklenecekPageLinkler().then((list) => {
-  //         console.log('Eklenenecek Liste genişliği: ' + list.length);
-  //         return list;
-  //       });
-  //     })
-  //     .then((insertList) => {
-  //       // değerleri gir
-  //       if (insertList.length !== 0) return insertPageLinks(insertList);
-  //       resolve(true);
-  //     });
-  // });
+          resolve(true);
+        });
+    });
+  });
 }
