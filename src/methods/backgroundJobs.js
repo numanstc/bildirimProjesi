@@ -17,7 +17,7 @@ BackgroundJob.register({
 function getFark() {
   return selectPageLinksPromise(1).then((pageLinks) => {
     return duyuruKontrol().then((uzunluk) => {
-      let fark = uzunluk.p * 15 + uzunluk.lenght;
+      let fark = (uzunluk.p - 1) * 15 + uzunluk.lenght;
 
       if (pageLinks.length > 0) {
         fark -= pageLinks[0].sira;

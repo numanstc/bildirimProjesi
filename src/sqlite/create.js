@@ -15,7 +15,7 @@ export default function create() {
     },
     {
       sql: 'CREATE TABLE IF NOT EXISTS ul(mesaj VARCHAR(255), pageId INTEGER)',
-      name: 'Images',
+      name: 'Ul',
     },
     {
       sql:
