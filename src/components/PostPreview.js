@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Feather';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Linking} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 function PostPreview({data}) {
@@ -13,7 +13,7 @@ function PostPreview({data}) {
     <TouchableOpacity
       style={styles.post}
       activeOpacity={0.75}
-      onPress={() => onPressPost()}>
+      onPress={() => Linking.openURL(data.link)}>
       <View style={styles.top}>
         <View style={{flex: 1}}>
           <Text style={styles.title}>{data.mesaj}</Text>
