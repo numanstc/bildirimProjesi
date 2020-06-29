@@ -3,6 +3,7 @@ import {FlatList, Text, ActivityIndicator, View} from 'react-native';
 import {selectPageLinksPromise} from '../sqlite/select';
 import Header from '../components/Header';
 import PostPreview from '../components/PostPreview';
+import PostsLoad from '../components/PostsLoad';
 
 import {guncelKaydet, eskiDataKaydet} from '../methods/veriKaydet';
 
@@ -76,7 +77,7 @@ function Recently() {
           ListFooterComponent={footer}
         />
       ) : (
-        <Text>Post Loading</Text>
+        <PostsLoad />
       )}
     </React.Fragment>
   );
