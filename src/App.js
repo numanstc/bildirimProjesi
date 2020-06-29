@@ -7,7 +7,7 @@ import SplashScreen from 'react-native-splash-screen';
 import create from './sqlite/create';
 import backgroundJobs from './methods/backgroundJobs';
 import Recently from './pages/Recently';
-import Post from './pages/Post';
+import LoadApp from './components/LoadApp';
 
 const Stack = createStackNavigator();
 
@@ -28,19 +28,14 @@ function App() {
   useEffect(() => {
     SplashScreen.hide();
   });
-  if (isLoading)
-    return (
-      <View>
-        <Text>Veritabanı oluşturuluyor...</Text>
-      </View>
-    );
+  if (isLoading) return <LoadApp />;
   return (
     <NavigationContainer>
       <StatusBar backgroundColor="#2E4E8C" barStyle="light-content" />
 
       <Stack.Navigator headerMode="none">
         <Stack.Screen name="Tabs" component={Recently} />
-        <Stack.Screen name="Post" component={Post} />
+        {/* <Stack.Screen name="Post" component={Post} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
