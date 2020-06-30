@@ -33,7 +33,7 @@ function bildirimGoster() {
     console.log('Fark: ' + fark);
 
     // buradaki -1 deneme olarak bildirim göstermis için
-    if (fark + 1 > 0) {
+    if (fark > 0) {
       const title = 'Bildirim Sistemi';
       const message = `${fark} adet okunmamış bildirim var`;
       notification(title, message);
