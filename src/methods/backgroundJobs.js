@@ -1,16 +1,15 @@
-import BackgroundJob from 'react-native-background-job';
 import {AppRegistry} from 'react-native';
-import notification from './notification';
-
+import BackgroundJob from 'react-native-background-job';
 import {selectPageLinksPromise} from '../sqlite/select';
 import duyuruKontrol from '../webScraping/duyuruKontrol';
+import notification from './notification';
+import {guncelKaydet} from './veriKaydet';
 
 const jobKey = 'BildirimKontrol';
 BackgroundJob.register({
   jobKey: jobKey,
   job: () => {
     bildirimGoster();
-    console.log(`Background Job çalıştı!. Key = ${jobKey}`);
   },
 });
 
@@ -22,7 +21,6 @@ function getFark() {
       if (pageLinks.length > 0) {
         fark -= pageLinks[0].sira;
       }
-
       return fark;
     });
   });
@@ -30,13 +28,11 @@ function getFark() {
 
 function bildirimGoster() {
   getFark().then((fark) => {
-    console.log('Fark: ' + fark);
-
-    // buradaki -1 deneme olarak bildirim göstermis için
     if (fark > 0) {
       const title = 'Bildirim Sistemi';
       const message = `${fark} adet okunmamış bildirim var`;
       notification(title, message);
+      guncelKaydet();
     }
   });
 }
